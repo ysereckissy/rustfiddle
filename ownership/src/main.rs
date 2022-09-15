@@ -44,6 +44,18 @@ fn reference_and_borrowing_examples() {
     println!("{}", valid_string);
 }
 
+#[derive(Debug)]
+enum UsState {
+    Texas,
+    California,
+    Colorado,
+    Georgia
+}
+enum Coin {
+    Nickel,
+    Dime,
+    Quater(UsState)
+}
 fn main() {
     ownership_examples();
     reference_and_borrowing_examples();
