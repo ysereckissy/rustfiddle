@@ -1,20 +1,36 @@
 #[derive(Debug)]
-struct Rectangle {
+pub struct Rectangle {
     width: u32,
     height: u32,
 }
 impl Rectangle {
-    fn can_hold(&self, other: &Rectangle) -> bool {
+    pub fn can_hold(&self, other: &Rectangle) -> bool {
         self.width > other.width && self.height > other.height
     }
 }
+
+pub struct Guess {
+    value: i32,
+}
+
+impl Guess {
+    pub fn new(value: i32) -> Guess {
+        if value < 1 || value > 100 {
+            panic!("Guess value must be between 1 and 100, got {}.", value);
+        }
+        Guess { value }
+    }
+    pub fn get_value(&self) -> i32 {
+        self.value
+    }
+}
+
 pub fn add_two(a: i32) -> i32 {
     a + 2
 }
 
 pub fn greeting(name: &str) -> String {
-    // format!("Hello {}", name)
-    String::from("Hello!")
+    format!("Hello {}", name)
 }
 
 #[cfg(test)]
@@ -56,5 +72,18 @@ mod tests {
             "Greeting did not contain name, value was `{}`",
             result
             );
+    }
+    #[test]
+    #[should_panic]
+    fn greater_than_100() {
+        Guess::new(200);
+    }
+    #[test]
+    fn add_two_and_two() {
+        assert_eq!(5, add_two(3))
+    }
+    #[test]
+    fn add_two_to_one_hundred() {
+        assert_eq!(102, add_two(100))
     }
 }
