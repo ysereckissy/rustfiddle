@@ -1,10 +1,58 @@
+//! This file contains the implementation of the library used in the minigrep
+//! console program. The main functions contained in this file are:
+//! search used to search for a query string in the file
+//! search_case_sensitive use to perform the same search but in case sensitive way.
+
 use std::error::Error;
 use std::fs;
 use std::env;
 
+pub use self::kinds::PrimaryColor;
+pub use self::kinds::SecondaryColor;
+pub use self::utils::mix;
+
+pub mod kinds {
+    /// The primary colors according to the RYB color model.
+    pub enum PrimaryColor {
+        Red,
+        Yellow,
+        Blue,
+    }
+    /// The secondary colors according to the RYB color model.
+    pub enum SecondaryColor {
+        Orange,
+        Green,
+        Purple,
+    }
+}
+
+pub mod utils {
+    use crate::kinds::*;
+    /// Combines two primary colors in equal amount to create a secondary color
+    pub fn mix(_cl1: PrimaryColor, _cl2: PrimaryColor) -> SecondaryColor {
+       SecondaryColor::Green
+    }
+}
+
+/// Define a configuration that contains what's needed by minigrep to run.
+///
+/// # Example
+///
+///```rust
+/// use minigrep::Config;
+///
+/// let config = Config {
+///     query: String::from("player"),
+///     file_path: String::from("search_file.txt"),
+///     ignore_case: false,
+/// };
+///```
 pub struct Config {
+    /// The query string to search for in the file
     pub query: String,
+    /// The path to the file that might contain the query string
     pub file_path: String,
+    /// Search case sensitiveness
     pub ignore_case: bool,
 }
 
@@ -47,6 +95,7 @@ pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
     contents
         .lines()
         .filter(|line| line.contains(query))
+        .map(|line| line.trim())
         .collect()
 }
 
@@ -57,6 +106,7 @@ pub fn search_case_insensitive<'a>(
     contents
         .lines()
         .filter(|line| line.to_lowercase().contains(&query.to_lowercase()))
+        .map(|line| line.trim())
         .collect()
 }
 
