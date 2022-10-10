@@ -3,9 +3,5 @@
 version = 3
 
 [[package]]
-<<<<<<< HEAD
-name = "minigrep"
-=======
 name = "ysn_minigrep"
->>>>>>> 3431649 (adding main as using example)
 version = "0.1.0"
